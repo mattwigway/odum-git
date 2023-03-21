@@ -1,0 +1,1341 @@
+---
+title: Version Control with Git and Github
+author: Matt Bhagat-Conway
+format:
+  revealjs:
+    width: 1600
+    height: 900
+    theme: [default, unc.scss]
+    logo: UNC_logo_RGB.png
+---
+
+# What is version control?
+
+- Track changes made to your code
+- Know _when_ and _who_ made changes to the code
+- Revert to older versions of your code
+- Archive specific versions of your code (e.g. for reproducing a particular analysis)
+- `git` is probably the most popular version control system, and it's free
+
+
+
+# Why should researchers use version control?
+
+- Avoid conflicts when multiple researchers edit the same code files
+- Keep a trail of all the different ways you specified your analysis for reproducibility
+- Archive versions used for publication
+- Revert changes that didn't work out
+- Keep multiple "branches" for experimental changes
+
+
+
+# What is Git?
+
+- Version control system
+- Command line application
+- Several online sites for collaborating with Git - GitHub is most popular
+- Focused on tracking changes in plain text files, e.g. R, Python, Stata do-files, Matlab, etc.
+  - Not Excel, Word, etc.
+
+
+
+# What is GitHub?
+
+- GitHub is a website for storing and sharing code using `git`
+- Many features for collaboration
+- Code can be public or private
+
+
+
+# Git concepts
+
+- Repository: code storage for a single project
+    - also the folder containing the code for that project
+- Commit: snapshot of project state
+- Branch: separate version of the code where you can try something before finalizing
+- Working tree: the files on your computer that you are editing and that may not have been committed yet
+- Remote: a server storing your code (e.g. GitHub)
+
+
+
+# What should I put in version control?
+
+- Yes: code, documentation
+- Maybe: papers, Word documents, small datasets
+- No: Large datasets
+
+
+
+# Typical Git workflow
+
+1. Create a directory for your project. Initialize Git.
+1. Create code files
+1. Commit those code files
+1. Continue to edit code files to refine the project
+1. Commit changes regularly
+    - Nothing wrong with committing often, even if code doesn't work yet
+
+<!---
+
+# Typical Git workflow
+
+- If you want to make significant changes that you may not want to keep, use a _branch_
+- On a branch, you can change the code and commit changes without affecting your main code
+- If the changes work out, you can _merge_ the branch back into the main code
+-->
+
+
+# Collaboration with Git
+
+- Don't share your Git repositories in OneDrive, etc.
+    - I recommend not even storing git repositories in OneDrive, as OneDrive can get confused due to the large number of files Git uses to keep track of changes
+- Instead, use a code-hosting service such as GitHub
+
+
+
+# What is the command line?
+
+- Git is a _command-line_ application
+- A way of interacting with the computer using a textual rather than graphical interface
+- To use the command line, you run _commands_. Each command has zero or more _options_ and _arguments_
+- When using the command line, you are always in a _working directory_. By default, commands will apply to files in this directory/folder.
+
+
+
+<!-- _class: center blank -->
+
+# What is the command line?
+
+![](cli-demo.svg){fig-alt="demo of the command line"}
+
+# Anatomy of a command
+
+`ls -l slides`
+
+<br/>
+<br/>
+
+- `ls`: Command (`ls` - list files) - always first item
+- `-l`: Option (`-l` - long format) - always starts with `-` or `--`
+- `slides`: Argument (list files in the directory `slides`)
+- Press enter to run a command
+
+
+
+# Specifying folders/directories
+
+- Nested directories are separated with `/`
+- `Documents/PLAN390` refers to the `PLAN390` folder inside the `Documents` folder
+- `Documents/PLAN390/introduction.txt` refers to `introduction.txt` inside `PLAN390` inside `Documents`
+- Any number of nested directories and files is a _path_
+
+
+
+# Autocompletion
+
+- When typing a command or a directory, pressing `TAB` will autocomplete
+- If there is more than one possibility, `TAB` `TAB` will show possibilities
+
+
+
+# Escaping spaces
+
+- Spaces separate options and arguments
+- If you want to refer to a file or folder with a space in it, two options
+    - Put a `\` before the space
+        - e.g. `Documents/PLAN\ 390`
+    - Enclose the entire path in `'`
+        - e.g. `'Documents/PLAN 390`
+- Autocompletion will automatically escape any spaces it autocompletes
+
+
+
+# The _working directory_
+
+- When you use the command line, there is always a working directory
+- This is the folder that the terminal is running "in"
+- Any commands you type will refer to files in this folder, unless you specify a complete path
+
+
+
+# Useful commands
+
+- `cd directory`: Change the working directory
+    - `cd ..`: Change to the parent directory (e.g. if in `Documents/PLAN_390`, would change to `Documents`)
+- `ls`: list files in the current working directory
+- `mv oldname newname`: rename files or move them between directories
+- `cp oldname newname`: copy file `oldname` to `newname`, which may be in a different directory
+- `mkdir name`: Make a folder/directory `name` in the working directory
+
+
+
+# Accessing the command line
+
+- Mac: Open the `Terminal` application in `Applications/Utilities`
+- Windows: Once you've installed `git`, right click a folder and choose "Git Bash here"
+- Everyone go ahead and do this now
+
+
+
+# Git getting started
+
+- Follow along on your machine
+- Open a terminal
+- Navigate to where you want to save your files from this class
+  - On Windows: find where you want to save the files in the file manager, right-click and choose "Git Bash here
+  - On Mac, open Terminal and use `cd` + tab completion to navigate to directory
+    - e.g. `cd Doc<TAB>` -> `cd Documents` if you want to save in Documents folder
+
+
+
+# Git setup
+
+- Only necessary the first time you use git on a new computer
+- Run these commands:
+  - `git config --global user.name "Your Name"`
+  - `git config --global user.email "Your Email"`
+- Privacy: if you share your code publicly on Github, your name and email will be visible
+- If this concerns you, set your name to initials, a pseudonym, etc.
+- Set email to e.g. `nobody@example.com`. Once you have a Github account, follow instructions [from GitHub](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address)
+
+
+
+# Create a new git repository
+
+```
+mkdir git-intro     # create a new directory to hold repository
+cd git-intro        # change the working directory to that directory
+git init -b main        # initialize a git repository
+```
+
+
+
+# Create a file to commit to your repository
+
+- Open a text editor (e.g. Visual Studio Code, TextEdit on Mac, Notepad on Windows)
+- Write something in the editor
+- Save the file as a .txt file in the git-intro folder
+  - TextEdit: Select Format -> Make Plain Text before saving
+- Leave the editor open, go back to terminal
+
+
+
+# Commit the file
+
+- Go back to your terminal
+- Run `ls`. You should see the file you just created.
+
+
+
+# Commit the file
+
+- Run `git status` to see the current state of your repository
+
+```
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	intro.txt
+
+nothing added to commit but untracked files present (use "git add" to
+track)
+```
+
+
+
+# Commit the file
+
+- To commit a file, you must first add it
+- This stages the current version for commit, useful if you want to commit multiple files at once
+- `git add filename`
+- `git status` to confirm it worked
+
+
+
+# Commit the file
+
+- `git commit -m "commit message"`
+- **Quotes are important**
+- Your commit message should be a brief description of what you added or changed
+- Useful if you ever want to go back to a previous version of your project
+- Commit messages should give enough information for someone else to follow the development
+  - or you, in two years
+
+
+
+# Breaking down the commit process
+
+- `git add` will save _the current version_ of whatever file into the _index_
+- The index is a staging area for the next commit
+- If you add a file you didn't mean to, `git restore --staged file` will remove from index, but not change file
+- If you `git add` a file and then make more changes, just `git add` again
+
+
+
+<!-- _class: blank -->
+
+# Breaking down the commit process
+
+- At the top of `git status` you will see what files are in the index
+- If a file is in both the top and bottom section, it means it has changed since you added it. `git commit` will commit the version of the file when you added it
+
+```
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   intro.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   intro.txt
+```
+
+
+
+# Breaking down the commit process
+
+- `git commit` creates the actual commit and records the changes
+- Once you have committed files, you can always return to those files
+- `git commit` only records the files that you have added to the index
+- A commit is just a set of changes to the file
+- Git can reconstruct the file at any point by stringing together the chain of commits
+
+
+
+# Commits are forever
+
+- Once you create a commit, that commit recorded permanently
+- You can always revert the commit, but that will create another commit undoing the changes
+- There are a few advanced commands to remove commits, but those are beyond the scope of this course
+
+
+
+# Commit messages
+
+- Every commit is associated with a "commit message," a short note about the contents of the commit
+- Helps finding old commits if you need to
+
+
+
+<!-- _class: two columns -->
+
+# Commit messages
+
+## Good commit messages
+
+- Create introduction file
+- Switch to use medians in analysis of X
+- Add documentation of method for X
+
+######
+######
+
+## Bad commit messages
+
+- update code
+- new analysis
+- fixed error
+
+
+
+<!-- _class: center blank -->
+
+# Commit messages
+
+![XKCD comic showing good and bad commit messages:
+created main loop & timing control	14 hours ago
+enabled config file parsing	9 hours ago
+misc bugfixes	5 hours ago
+code additions/edits	4 hours ago
+more code	4 hours ago
+here have code	4 hours ago
+aaaaaaaa	3 hours ago
+adkfjslkdfjsdklfj	3 hours ago
+my hands are typing words	2 hours ago
+haaaaaaaaands	2 hours ago
+[Caption below the panel:]
+As a project drags on, my Git commit messages get less and less informative.
+w:900px](xkcd_git_commit.png)
+<i>&copy; XKCD</i>
+
+
+
+# Creating another commit
+
+- Go back to your text editor, modify the file, and save it
+- Back in the terminal: `git status`
+
+
+
+# Creating another commit
+
+- `git diff` will show what has changed since last `git add` or `git commit`
+
+```
+matts-mbp-2:git-intro mwbc$ git diff
+diff --git a/intro.txt b/intro.txt
+index 28953cd..735e4ba 100644
+--- a/intro.txt
++++ b/intro.txt
+@@ -0 +2,3 @@
+-PLAN 390 is teaching git.
+\ No newline at end of file
++
++ Next week we will learn GitHub.
+\ No newline at end of file
+```
+
+
+
+# Creating another commit
+
+- To create another commit, do as before: `git add` and `git commit`
+
+
+
+# Commiting multiple files
+
+- You can run `git add` as many times as you want before `git commit`; all the files will be combined into a single commit
+- You can specify multiple files after `git add`: e.g. `git add file1.txt file2.txt`
+- You can specify a directory with `git add directory-name` - this will commit everything in the directory
+  - `git add .` to commit everything in the current directory
+  - Use with caution. There may be files that you don't want to commit (e.g. `.DS_Store`)
+
+
+
+<!-- _class: blank -->
+
+# Seeing your commits
+
+- `git log` will list all of the commits so far and the commit messages
+- Go ahead and run this command
+
+```
+commit 7b4cebc2234fa8001812013400385f8bdbdbb02a (HEAD -> main)
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:36:56 2022 -0500
+
+    add schedule for next week
+
+commit f0c25d440d112c9a7008e96fe41c496b8a175ad3
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:33:16 2022 -0500
+
+    add introduction
+```
+
+
+
+# Interpreting `git log` output
+
+```
+commit 7b4cebc2234fa8001812013400385f8bdbdbb02a (HEAD -> main)
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:36:56 2022 -0500
+
+    add schedule for next week
+
+commit f0c25d440d112c9a7008e96fe41c496b8a175ad3
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:33:16 2022 -0500
+
+    add introduction
+```
+
+
+
+# Interpreting `git log` output
+
+```
+commit 7b4cebc2234fa8001812013400385f8bdbdbb02a
+```
+
+- This section describes the commit with ID or _hash_ `7b4ceb...`
+- The commit hash is an ID assigned by `git` for each commit
+- Used with many git commands, but you only need the first six letters
+
+
+
+# Interpreting `git log` output
+
+```
+                                                (HEAD -> main)
+```
+
+- HEAD: this commit is the most recent commit
+- main: this commit is on the `main` branch
+  - More on that later
+
+
+
+# Interpreting `git log` output
+
+```
+
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+```
+
+- I authored this commit
+
+
+
+# Interpreting `git log` output
+
+```
+
+
+Date:   Tue Jan 18 14:33:16 2022 -0500
+```
+
+- I authored this commit on Tuesday, Jan 18, 2022 at 2:33 pm (UTC-05:00)
+
+
+
+# Interpreting `git log` output
+
+
+
+```
+
+
+
+
+    add schedule for next week
+```
+
+- The commit message you entered previously
+
+
+
+# Interpreting `git log` output
+
+```
+commit 7b4cebc2234fa8001812013400385f8bdbdbb02a (HEAD -> main)
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:36:56 2022 -0500
+
+    add schedule for next week
+
+commit f0c25d440d112c9a7008e96fe41c496b8a175ad3
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:33:16 2022 -0500
+
+    add introduction
+```
+
+
+
+# Seeing what changed in a commit: `git show`
+
+- `git show COMMIT_HASH` will show what changed in a particular commit
+- Get commit hash from `git log`
+- Only need first four characters or enough to make commit hash unique
+- Will show hash, author, time, commit message, and what changes
+
+
+# Seeing what changed in a commit: `git show`
+
+```
+commit 7b4cebc2234fa8001812013400385f8bdbdbb02a (HEAD -> main)
+Author: Matt Bhagat-Conway <matt@indicatrix.org>
+Date:   Tue Jan 18 14:36:56 2022 -0500
+
+    add schedule for next week
+
+diff --git a/intro.txt b/intro.txt
+index 28953cd..735e4ba 100644
+--- a/intro.txt
++++ b/intro.txt
+@@ -0 +2,3 @@
+-Odum is teaching git.
++
++Next week we will learn GitHub.
+```
+
+
+<!-- _class: blank -->
+
+# Seeing what changed in multiple commits: `git diff`
+
+- `git diff FIRST_COMMIT_HASH SECOND_COMMIT_HASH`
+- Commit hashes from `git log`
+- Shows everything that changed after the first commit up to and including the second
+
+```
+diff --git a/intro.txt b/intro.txt
+index 28953cd..735e4ba 100644
+--- a/intro.txt
++++ b/intro.txt
+@@ -0 +2,3 @@
+-Odum is teaching git.
++
++On Wednesday we will learn GitHub.
+```
+
+
+
+# Keeping a clean working tree
+
+- It's best practice to not have any untracked files in your working tree, and not have any uncommitted changes except for ones you're actively working on
+- This helps avoid errors when committing
+- After your commit, best practice is for `git status` to say `Nothing to commit, working tree clean`
+
+
+
+# .gitignore
+
+- Often there will be files or folders that you don't want to include in version control
+- e.g. .DS_Store on Mac, pyc files with python, .RData with R, etc.
+- You can tell Git to ignore these files by creating a file called `.gitignore` in your repository
+- You can match multiple file names with `*`, e.g. `*.pyc` will ignore all pyc files
+- You can check this file into Git so all your collaborators have the same ignored files
+
+
+
+# .gitignore
+
+- Create a `.gitignore` file now
+- Ignore `*.docx` files
+- Save a Word document in your repository
+- Notice that `git status` does not show the Word document as being available for committing
+- If you try to `git add` the document, nothing will happen
+
+
+
+# .gitignore
+
+- GitHub provides `.gitignore` files for many languages at [https://github.com/github/gitignore](https://github.com/github/gitignore)
+
+
+
+# Discarding uncommitted changes
+
+- If you've made changes you don't want to keep but _have not committed them_, you can discard them
+  - `git reset --hard HEAD` discards all changes since the last commit (except new files)
+  - `git restore file` discards only changes to file
+    - `git checkout HEAD -- file` on older versions of git
+  - `git stash` discards all changes, but saves them in a "stash" - you can get them back with `git stash pop`
+
+
+
+# Viewing older versions of your files
+
+- Find the commit you want to view
+- Run `git checkout COMMIT_HASH`
+
+
+
+# Look, but don't touch
+
+<!-- _class: blank -->
+
+```
+(base) matts-mbp-2:git-intro mwbc$ git checkout d6a403
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+HEAD is now at d6a403f commit test file
+```
+
+
+
+# Look, but don't touch
+
+- You cannot change commits you've already made
+- If you make any commits after checking out a commit, they will not be attached to your main branch
+- When you switch back to main branch, any commits you make here will be left dangling (not gone, but hard to find)
+- If you want to save commits built off a previous commit _without_ reverting the more recent commit on the main branch, first checkout the commit then create a new branch
+
+
+
+# Reverting a commit
+
+- If you've already made a commit and want to get rid of it, you can run
+  `git revert commit-id`
+- `commit-id` comes from `git log`, and you only need the first six or so letters
+- `git revert commit-id` will revert _only_ `commit-id`. If it's not the most recent commit, Git will try to back out the changes caused by that commit while preserving later commits. This can cause a _conflict_ which we'll talk about in a bit
+
+
+
+# Reverting a commit
+
+- `git revert` doesn't actually remove the commit—that would overwrite the history fand defeat the purpose of version control
+- Instead, it creates a new commit undoing the changes from the commit
+- This means that you can't easily delete something entirely - someone could look back through the repository history to find it
+  - if you accidentally committed your password, change your password
+
+
+
+# Using vim
+
+- You will likely be presented the commit message in `vim`, a command line text editor
+- Press `i` to enter "insert mode"
+- Edit as normal, using arrow keys to navigate
+- When done, press `ESC` to exit insert mode
+- Then type `:wq` to enter command mode (`:`), write the modified file (`w`) and quit (`q`)
+
+
+
+# Reverting multiple commits
+
+- If you want to revert several commits, you can run `git revert commit-id..HEAD`
+- This will create one commit reverting each commit starting, in the reverse order they were applied
+- If you don't want one revert commit per original commit, you can do `git revert --no-commit commit-id..HEAD`
+  - This will revert all of the commits, and stage the changes, but not commit them
+  - Follow up with `git commit` to commit the entire reversion as a single commit
+
+# Branches
+
+- Branches are a way to try out changes without affecting your existing code
+- If you've ever made copies of your code (`analysis2.R` etc) you've created something similar to a branch
+- When you create a branch, you can make changes to it without affecting your main branch
+
+# Branches are cheap
+
+- When you create a branch, git doesn't actually copy your files
+- Git keeps track of the contents of all your files as a series of commits to the files
+- A branch is just a separate list of commits
+
+
+
+# Creating a branch
+
+Create and switch to the branch `new-branch`
+
+```
+git switch -c new-branch
+```
+
+or, on older versions of git
+
+```
+git checkout -b new-branch
+```
+
+`-c` stands for "create", and `-b` stands for "new branch"
+
+
+
+# Using branches
+
+- Edit the text file you created
+- Create a new text file
+- Add and commit them both
+
+
+
+# Using branches
+
+- If you run `ls` now, you should see your new files
+- `git status` should end with `nothing to commit, working tree clean`
+- This means all of your files have been committed
+
+
+
+# Switching branches
+
+- Run `git switch main`
+- Run `ls`. Your new file should be gone
+  - because it's in the other branch
+- Look at the file you edited. It should show the original file, not the edited one.
+
+
+
+# Switching branches
+
+- Run `git switch new-branch`
+- Run `ls`. Your new file should be gone and your changes to your first file should be back
+
+
+
+# Listing branches
+
+- `git branch` will list all branches in your repository, and highlight the current branch
+  ```
+  matts-mbp-2:git-intro mwbc$ git branch
+    main
+  * new-branch
+  ```
+
+
+
+# Merging
+
+- If you're happy with the work you've done on a branch, you'll eventually want to incorporate it back into your `main` branch
+- In Git, incorporating one branch into another is called "merging".
+
+
+
+# Merging
+
+- You perform a merge while the branch you want to merge _into_ is checked out
+- Switch back to the main branch
+- You can now merge your branch by running `git merge new-branch`
+
+
+
+# Merging
+
+```
+(base) matts-mbp-2:odum-git mwbc$ git merge new-branch
+Updating a53cbba..b7db6f0
+Fast-forward
+ test.txt  | 3 ++-
+ test2.txt | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ create mode 100644 test2.txt
+ ```
+
+
+
+# Deleting merged branches
+
+- You can (but don't have to) delete branches once they are merged
+- `git branch -d branch-name`
+- Git will error if you try to delete a branch that has not been merged
+
+
+
+# Types of merge
+
+- Fast-forward: no new commits on `main` since `new-branch` created. `new-branch` commits added to `main`
+![Fast-forward merge showing a single commit to a new branch and no additional commits to main branch](fast-forward.svg)
+- True merge: both branches have had commits since they created. New _merge commit_ added to `main` at end indicating merge, with two parent commits (one from `main` and one from `new-branch`)
+![True merge showing a single commit to a new branch and a single commit to main branch](true-merge.svg)
+
+
+
+# Resolving merge conflicts
+
+- Git attempts to automatically merge the two branches together
+- If different files were modified, or different parts of the same file, `git merge` will apply changes from both branches
+  - Note that even if the merge succeeds, the resulting code may not work
+- If the same parts of the same files were modified, Git will report a merge conflict
+
+
+
+# Resolving merge conflicts
+
+- Run `git clone https://github.com/mattwigway/merge-conflict.git`
+- This will download a repository from Github that has a merge conflict
+  - We'll talk more about Github on Wednesday
+- Run `cd merge-conflict` to change your working directory to the repository you just downloaded
+
+
+
+# Resolving merge conflicts
+
+- Before we attempt the merge, investigate the situation
+- Use  `git status` to see the most recent commits
+- Switch to the `add-weight` branch and use `git status` to see the commits there
+- Look at `analysis.R` on both branches
+
+
+
+# Resolving merge conflicts
+
+- Merge the `add-weight` branch into `main`
+
+
+
+# Resolving merge conflicts
+
+- Merge the `add-weight` branch into `main`
+
+```
+Auto-merging analysis.R
+CONFLICT (content): Merge conflict in analysis.R
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+
+# What happened?
+
+- Git could not automatically merge `analysis.R`, because both branches changed different parts of the code.
+
+
+
+# What to do now?
+
+- If you (re)-open `analysis.R`, you'll see that Git has marked where the conflict was with `<<<<`
+- It has included the code from both branches
+
+```R
+# How is mpg related to displacement
+<<<<<<< HEAD
+res.fit = lm(mpg~disp+cyl, mtcars)
+=======
+res.fit = lm(mpg~disp+wt, mtcars)
+>>>>>>> add-weight
+summary(res.fit)
+```
+
+
+
+# What to do now?
+
+- Edit the file so it has the code you want to save
+- It's okay to mix and match, or even write (a small amount of) new code, just get the final file looking like you want
+- Commit the file(s) with merge conflicts
+  - `git add` them like normal
+  - `git commit` them without the `-m` option; Git will present a default commit message for you to edit.
+- If you get in over your head, `git merge --abort` will take you back to where you were before running `git merge` in the first place
+
+
+# Rebasing
+
+- If you merge two branches that have diverged, you will get a merge commit, and your commit history will have multiple paths
+![True merge showing a single commit to a new branch and a single commit to main branch](true-merge.svg)
+- Another option is to _rebase_ your branch based on the latest commits to the branch you're merging into
+![Rebase showing a diverged branch to be updated to main](rebase.svg)
+
+
+
+# Rebasing
+
+- Rebasing _rewrites history_ and changes the order of commits
+- Rebasing a branch onto `main`, for example, will rewrite the repository history so it looks like all the commits on that branch came after the last commit on `main`
+
+
+
+
+# How does rebasing work?
+
+- First, Git "rewinds" the branch you're currently on to the last common commit between it and the other branch
+- It then successively attempts to apply each commit. If merge conflicts occur, you have to resolve them one at a time.
+- Once all conflicts have been resolved, your branch now appears as if it were built directly from the latest commit in the other branch
+- This means you can do a fast-forward merge instead of a true merge
+
+
+
+<!-- _class: center blank -->
+
+# Rewriting history can be dangerous!
+
+![GIF from "Back to the Future" w:800px](back-to-the-future.gif)
+_&copy; Universal Studios_
+
+
+
+# Pros and cons of rebasing
+
+- Fast-forward merges become possible
+- This makes searching through and reverting history on the main branch simpler
+- Rebasing actually creates new commits, with the same content but different IDs. If you're working in a shared repository, this can create a problem if someone else has based work on the branch you rebase, as your branch will refer to the updated commits, but theirs will still use the old ones.
+- Rule of thumb: rebase sparingly, and only do so on branches that only you use, and that you haven't based other branches off of
+
+
+
+# How to rebase
+
+- Start on the branch you are rebasing, not the branch you are eventually merging into
+- Switch to the `second-regression` branch
+- Run `git rebase main`
+
+
+
+# How to rebase
+
+```
+(base) matts-mbp-2:odum-merge-conflict mwbc$ git rebase main
+Auto-merging analysis.R
+CONFLICT (content): Merge conflict in analysis.R
+error: could not apply c06acab... log variables
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply c06acab... log variables
+```
+
+
+# We have a merge conflict
+
+- Resolve the merge conflict like you did before
+- `git add` the files but do not `git commit`
+- Run `git rebase --continue` and edit the log message if needed
+- If you get in a pickle, `git rebase --abort`
+
+
+
+# Rebase is finished
+
+- It's a good idea to check your code at this point to make sure it still works
+- Git temporarily saves your work in the special branch `ORIG_HEAD`
+- If you want to undo the rebase, run `git reset --hard ORIG_HEAD`
+- If it's been longer and you've run other Git operations, this `git reset` may not work
+- You may still have options to undo using the `git reflog` command, but that's beyond the scope of this course
+
+
+
+# Tagging a commit
+
+- Git allows creating a _tag_ for any commit
+- Tags are like branches that cannot change
+- Useful for recording a version used in a publication or presentation, or a released version of software
+
+
+
+# Create a tag
+
+- `git tag -m "description of tag" name-of-tag`
+- Can now check out the exact version tagged with `git checkout name-of-tag`
+
+
+
+# What is Github?
+
+- A place to store your code
+- A graphical interface to Git
+- A place to collaborate on code with others
+
+
+
+<!-- _class: two columns -->
+
+# Differences between Git and Github
+
+Git
+- Runs on your computer
+- No internet connection needed
+- Interacts with files on your computer
+- Command-line interface
+- No collaboration features
+
+#####
+#####
+
+Github
+- Website
+- Graphical interface
+- Strong collaboration features
+- Remote code storage and backup
+
+
+
+# Github concepts
+
+- Repository: code and version history for a single project
+- User: a single user who can have any number of repositories
+- Organization: a collection of users who have shared repositories
+- Fork: a copy of a repository under a different user or organization
+- Branch: within a repository, a separate version of the code
+- Merge: bringing changes from a branch back into the main repository
+
+
+
+# Github concepts
+
+- Push: share commits from your computer to Github
+- Pull: Copy commits from Github to your computer, or to your fork
+- Pull request: a request to merge changes from your fork back into the original repository
+- Clone: creating a copy of a repository on your computer that is linked to the repository on Github
+- Remote: specifies which Github repository the repository on your computer is linked to
+
+
+
+# Github concepts
+
+- Public repository: code and version history viewable by anyone, editable by people you specify
+- Private repository: code and version history private
+
+
+
+<!-- _class: center -->
+
+# The Github interface
+
+<!--
+Live demo:
+
+Cover main tree view, commits/log view, single commit view, issues
+-->
+
+[![The main Github repository view showing the files checked in w:900px](gh_repo.png)](https://github.com/mattwigway/DiscreteChoiceModels.jl)
+
+
+
+<!-- _class: center -->
+
+# Creating a Github repository
+
+![Creating a new Github repository w:800px](new_gh_repo.png)
+
+
+
+# Creating a Github repository
+
+- Choose a name and description
+- Leave all initialization options unchecked
+
+
+
+# Creating a Github repository
+
+- Select "HTTPS" and follow instructions for pushing an existing repo from the command line
+```
+git remote add origin https://github.com/username/repo.git
+git branch -M main
+git push -u origin main
+```
+
+
+
+# Creating a Github repository
+
+`git remote add origin https://github.com/username/repo.git`
+- adds a _remote_ to your local repository so that git knows which Github repository it is associated with
+
+
+
+# Creating a Github repository
+
+`git branch -M main`
+- renames the current branch to `main` (optional)
+
+
+
+# Creating a Github repository
+
+`git push -u origin main`
+- _Pushes_ (copies) all of the commits from your computer to Github
+- Windows:
+    - Newer versions of Git will ask to log in with Github, click "log in with browser"
+- Mac:
+    - Going to ask for a username, this is your Github username
+    - And a password, this is _not_ your Github password
+
+
+
+# Authenticating to Github: Mac
+
+- Create a ["personal access token"](https://github.com/settings/tokens/new)
+- Select "repo" scope
+
+
+
+# Authenticating to Github: Mac
+
+<!-- _class: center -->
+
+![Creating a personal access token w:800px](gh_token.png)
+
+
+
+<!-- _class: center -->
+
+# Authenticating to Github: Mac
+
+![After creating a personal access token w:800px](gh_token_created.png)
+
+Copy token to password prompt in terminal, press enter
+
+
+
+# Creating a Github repository
+
+- Select "HTTPS" and follow instructions for pushing an existing repo from the command line
+```
+git remote add origin https://github.com/username/repo.git
+git branch -M main
+git push -u origin main
+```
+
+
+
+# Creating a Github repository
+
+- Your repository should be created. Go back to Github and you should see your files.
+
+
+
+# Updating your Github repository
+
+- When you use `git commit`, that commit is only on your computer
+- Unlike Dropbox/OneDrive, syncing is not automatic
+- `git push` will send commit to Github
+
+
+
+# Downloading updates to your Github repository
+
+- If you're working with a team or if you make changes using the Github web interface, there will be commits on Github that aren't on your computer
+- `git pull` will download those changes
+
+
+
+<!-- _class: center -->
+
+<!-- live demo: https://github.com/mattwigway/plan390-hw1 -->
+
+
+# Pull requests
+
+[![An example of a pull request w:900px](gh_pr.png)](https://github.com/conveyal/r5/pull/248)
+
+
+
+# Pull requests
+
+- A pull request is a request to merge changes into the main codebase
+- Often used for open-source projects, but useful within teams as well
+- Provides a [collaborative environment for code review](https://github.com/conveyal/r5/pull/248)
+
+
+
+# Creating a pull request
+
+- The first step to creating a pull request is to create a branch
+- Make commits, etc.
+- Push the branch to GitHub
+- Don't merge - create a pull request requesting a merge
+
+
+
+# Pushing a branch to GitHub
+
+- Create and commit to branch as usual
+- `git push -u origin branch-name`
+- This will push the branch to GitHub. `-u` tells Git to "track" the upstream branch, so changes locally will be reflected on GitHub and vice-versa
+
+
+
+# Pushing additional commits
+
+- Once you have first pushed a branch to GitHub, additional commits can be pushed with `git push`
+- No options needed
+- If you can't remember if you pushed already, `git push` by itself will tell you
+
+
+
+# Creating a pull request
+
+- In your browser, go to your repository on GitHub
+  - https://github.com/username/reponame
+- In the upper-left, select the branch
+- Click "Contribute" and choose "Open pull request"
+- or "Compare" to get a preview of what is different between branches
+
+
+
+# Reviewing a pull request
+
+- Github provides an interface to view and comment on changes and the pull request generally
+- You can modify the pull request by adding additional commits on the branch
+- Once you are ready, if there are no merge conflicts you can merge the pull request within the Github interface
+
+
+
+
+# Create a comment on and approve your pull request
+
+- On Github, navigate to your repository and click "pull requests" and find your pull request
+- Add a comment to the entire pull request
+- Switch to the "files changed" view
+- Use the "+" button to create a line comment
+- Click "review changes" and add a comment and approve changes
+- Can adjust repository settings to require approval to merge
+
+
+
+# Merge your pull request
+
+- Click "merge pull request" at the bottom of the page
+- If there are no merge conflicts, will merge automatically and prompt you to delete the branch
+
+
+
+# Retrieving updated code on your computer
+
+- Switch back to the main branch
+- `git pull` to get the latest code
+- `git pull` will always update current branch
+
+
+
+# Working on shared branches
+
+- If you're working together on a branch, should always `git pull` and `git push` frequently
+- This avoids two people committing at once rather than building off of each other's commits
+- If you both commit at once, you will not be able to push
+
+
+
+# Pushing a commit when someone else has already pushed
+
+```
+To github.com:mattwigway/odum-julia.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:mattwigway/odum-julia.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+
+
+# Resolving a push failure
+
+- Run `git pull --no-rebase` or `git pull --rebase`
+- `git pull --no-rebase` will merge your commit and their commit, and create a new merge commit
+- `git pull --rebase` will _rebase_: attempt to apply the changes from your commits on top of the changes from their commits
+- In either case you may need to resolve merge conflicts
+- If you rebase, you will resolve merge conflicts one commit at a time
+- If you merge, you will resolve merge conflicts all at once
+
+
+
+
+# Github Flow
+
+- Github Flow is a recommended way to manage branches and pull requests
+- It's a set of practices, not a part of the software
+- In Github Flow, _all_ development happens on branches specific to a particular task
+- Pull requests are then created to merge those into a main branch
+- This avoids conflicts between project members
+- Ensures two people see every code change
+
+
+
+# Cloning an existing repository
+
+- If there's already a repository on Github, you can "clone" it to your computer with `git clone`
+- e.g. `git close https://github.com/mattwigway/merge-conflict.git` that we saw previously
+- This will copy the entire repository history to your computer
+
+
+
+# Issue tracking
+
+- Every Github repository comes with an issue tracker
+- Each issue has a title, a description, and an issue number
+- Team members can comment on issues
+- Referencing an issue by number [in a commit message will link that commit to that issue](https://github.com/conveyal/r5/commit/0f5577bd9b729a382f06e249e252a029fe9bac78)
+- If you say "close", "fix", or "resolve" followed by an issue number, that issue will automatically close when committed/merged to the main branch
+
+
+
+# Forks
+
+<!-- live demo: fork https://github.com/tidyverse/ggplot2 -->
+
+- Your own copy of any repository on Github
+- You can make changes to this copy, and later request that they be integrated "upstream"—into the original repository
+
+
