@@ -7,6 +7,7 @@ format:
     height: 900
     theme: [default, unc.scss]
     logo: UNC_logo_RGB.png
+    footer: https://projects.indicatrix.org/odum-git
 ---
 
 # What is version control?
@@ -308,7 +309,7 @@ Changes not staged for commit:
 
 # Commits are forever
 
-- Once you create a commit, that commit recorded permanently
+- Once you create a commit, that commit is recorded permanently
 - You can always revert the commit, but that will create another commit undoing the changes
 - There are a few advanced commands to remove commits, but those are beyond the scope of this course
 
@@ -359,7 +360,7 @@ my hands are typing words	2 hours ago
 haaaaaaaaands	2 hours ago
 [Caption below the panel:]
 As a project drags on, my Git commit messages get less and less informative.
-w:900px](xkcd_git_commit.png)
+](xkcd_git_commit.png)
 <i>&copy; XKCD</i>
 
 
@@ -673,7 +674,7 @@ HEAD is now at d6a403f commit test file
 
 # Reverting a commit
 
-- `git revert` doesn't actually remove the commit—that would overwrite the history fand defeat the purpose of version control
+- `git revert` doesn't actually remove the commit—that would overwrite the history and defeat the purpose of version control
 - Instead, it creates a new commit undoing the changes from the commit
 - This means that you can't easily delete something entirely - someone could look back through the repository history to find it
   - if you accidentally committed your password, change your password
@@ -926,7 +927,7 @@ summary(res.fit)
 
 # Rewriting history can be dangerous!
 
-![GIF from "Back to the Future" w:800px](back-to-the-future.gif)
+![GIF from "Back to the Future" ](back-to-the-future.gif)
 _&copy; Universal Studios_
 
 
@@ -1009,21 +1010,29 @@ Could not apply c06acab... log variables
 
 # Differences between Git and Github
 
+
+:::: {.columns}
+::: {.column width="50%"}
 Git
+
 - Runs on your computer
 - No internet connection needed
 - Interacts with files on your computer
 - Command-line interface
 - No collaboration features
 
-#####
-#####
+:::
+::: {.column width="50%"}
 
 Github
+
 - Website
 - Graphical interface
 - Strong collaboration features
 - Remote code storage and backup
+
+:::
+::::
 
 
 
@@ -1065,7 +1074,7 @@ Live demo:
 Cover main tree view, commits/log view, single commit view, issues
 -->
 
-[![The main Github repository view showing the files checked in w:900px](gh_repo.png)](https://github.com/mattwigway/DiscreteChoiceModels.jl)
+[![The main Github repository view showing the files checked in ](gh_repo.png)](https://github.com/mattwigway/DiscreteChoiceModels.jl)
 
 
 
@@ -1073,7 +1082,7 @@ Cover main tree view, commits/log view, single commit view, issues
 
 # Creating a Github repository
 
-![Creating a new Github repository w:800px](new_gh_repo.png)
+![Creating a new Github repository ](new_gh_repo.png)
 
 
 
@@ -1112,6 +1121,7 @@ git push -u origin main
 # Creating a Github repository
 
 `git push -u origin main`
+
 - _Pushes_ (copies) all of the commits from your computer to Github
 - Windows:
     - Newer versions of Git will ask to log in with Github, click "log in with browser"
@@ -1132,7 +1142,7 @@ git push -u origin main
 
 <!-- _class: center -->
 
-![Creating a personal access token w:800px](gh_token.png)
+![Creating a personal access token ](gh_token.png)
 
 
 
@@ -1140,7 +1150,7 @@ git push -u origin main
 
 # Authenticating to Github: Mac
 
-![After creating a personal access token w:800px](gh_token_created.png)
+![After creating a personal access token ](gh_token_created.png)
 
 Copy token to password prompt in terminal, press enter
 
@@ -1185,7 +1195,7 @@ git push -u origin main
 
 # Pull requests
 
-[![An example of a pull request w:900px](gh_pr.png)](https://github.com/conveyal/r5/pull/248)
+[![An example of a pull request ](gh_pr.png)](https://github.com/conveyal/r5/pull/248)
 
 
 
@@ -1337,5 +1347,6 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 
 - Your own copy of any repository on Github
 - You can make changes to this copy, and later request that they be integrated "upstream"—into the original repository
+- Pull requests can be created between forks
 
 
