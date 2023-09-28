@@ -1534,45 +1534,47 @@ git push -u origin main</code></pre>
 <p><code>git branch -M main</code> - renames the current branch to <code>main</code> (optional)</p>
 </section>
 
-<section id="creating-a-github-repository-5" class="title-slide slide level1 center">
-<h1>Creating a Github repository</h1>
-<p><code>git push -u origin main</code></p>
+<section id="authenticating-to-github-mac-option-1" class="title-slide slide level1 center">
+<h1>Authenticating to Github: Mac: Option 1</h1>
 <ul>
-<li><em>Pushes</em> (copies) all of the commits from your computer to Github</li>
-<li>Windows:
-<ul>
-<li>Newer versions of Git will ask to log in with Github, click “log in with browser”</li>
-</ul></li>
-<li>Mac:
-<ul>
-<li>Going to ask for a username, this is your Github username</li>
-<li>And a password, this is <em>not</em> your Github password</li>
-</ul></li>
+<li>Download and install the <a href="https://cli.github.com/">Github Command Line Interface</a></li>
+<li>Run <code>gh auth login</code></li>
 </ul>
 </section>
 
-<section id="authenticating-to-github-mac" class="title-slide slide level1 center">
-<h1>Authenticating to Github: Mac</h1>
+<section id="authenticating-to-github-mac-option-2" class="title-slide slide level1 center">
+<h1>Authenticating to Github: Mac: Option 2</h1>
 <ul>
 <li>Create a <a href="https://github.com/settings/tokens/new">“personal access token”</a></li>
 <li>Select “repo” scope</li>
 </ul>
 </section>
 
-<section id="authenticating-to-github-mac-1" class="title-slide slide level1 center">
-<h1>Authenticating to Github: Mac</h1>
+<section id="authenticating-to-github-mac-option-2-1" class="title-slide slide level1 center">
+<h1>Authenticating to Github: Mac: Option 2</h1>
 <!-- _class: center -->
 
 <!-- _class: center -->
 <img data-src="gh_token.png" class="r-stretch quarto-figure-center"><p class="caption">Creating a personal access token</p></section>
 
-<section id="authenticating-to-github-mac-2" class="title-slide slide level1 center">
-<h1>Authenticating to Github: Mac</h1>
+<section id="authenticating-to-github-mac-option-2-2" class="title-slide slide level1 center">
+<h1>Authenticating to Github: Mac: Option 2</h1>
 
-<img data-src="gh_token_created.png" class="r-stretch quarto-figure-center"><p class="caption">After creating a personal access token</p><p>Copy token to password prompt in terminal, press enter</p>
+<img data-src="gh_token_created.png" class="r-stretch quarto-figure-center"><p class="caption">After creating a personal access token</p><ul>
+<li>Copy token, and use as password when running <code>git push</code></li>
+</ul>
 </section>
 
-<section id="creating-a-github-repository-6" class="title-slide slide level1 center">
+<section id="pushing-your-code-to-github" class="title-slide slide level1 center">
+<h1>Pushing your code to Github</h1>
+<pre><code>git push -u origin main</code></pre>
+<ul>
+<li>On Windows, you’ll now be asked to authenticate</li>
+<li>On Mac, using option 2, enter your Github username and the token you just copied</li>
+</ul>
+</section>
+
+<section id="creating-a-github-repository-5" class="title-slide slide level1 center">
 <h1>Creating a Github repository</h1>
 <ul>
 <li>Select “HTTPS” and follow instructions for pushing an existing repo from the command line</li>
@@ -1582,7 +1584,7 @@ git branch -M main
 git push -u origin main</code></pre>
 </section>
 
-<section id="creating-a-github-repository-7" class="title-slide slide level1 center">
+<section id="creating-a-github-repository-6" class="title-slide slide level1 center">
 <h1>Creating a Github repository</h1>
 <ul>
 <li>Your repository should be created. Go back to Github and you should see your files.</li>
