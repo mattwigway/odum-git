@@ -1109,52 +1109,43 @@ git push -u origin main
 `git remote add origin https://github.com/username/repo.git`
 - adds a _remote_ to your local repository so that git knows which Github repository it is associated with
 
-
-
 # Creating a Github repository
 
 `git branch -M main`
 - renames the current branch to `main` (optional)
 
+# Authenticating to Github: Mac: Option 1
 
+- Download and install the [Github Command Line Interface](https://cli.github.com/)
+- Run `gh auth login`
 
-# Creating a Github repository
-
-`git push -u origin main`
-
-- _Pushes_ (copies) all of the commits from your computer to Github
-- Windows:
-    - Newer versions of Git will ask to log in with Github, click "log in with browser"
-- Mac:
-    - Going to ask for a username, this is your Github username
-    - And a password, this is _not_ your Github password
-
-
-
-# Authenticating to Github: Mac
+# Authenticating to Github: Mac: Option 2
 
 - Create a ["personal access token"](https://github.com/settings/tokens/new)
 - Select "repo" scope
 
-
-
-# Authenticating to Github: Mac
+# Authenticating to Github: Mac: Option 2
 
 <!-- _class: center -->
 
 ![Creating a personal access token ](gh_token.png)
 
-
-
 <!-- _class: center -->
 
-# Authenticating to Github: Mac
+# Authenticating to Github: Mac: Option 2
 
 ![After creating a personal access token ](gh_token_created.png)
 
-Copy token to password prompt in terminal, press enter
+- Copy token, and use as password when running `git push`
 
+# Pushing your code to Github
 
+```
+git push -u origin main
+```
+
+- On Windows, you'll now be asked to authenticate
+- On Mac, using option 2, enter your Github username and the token you just copied
 
 # Creating a Github repository
 
