@@ -144,9 +144,9 @@ format:
 - Spaces separate options and arguments
 - If you want to refer to a file or folder with a space in it, two options
     - Put a `\` before the space
-        - e.g. `Documents/PLAN\ 390`
-    - Enclose the entire path in `'`
-        - e.g. `'Documents/PLAN 390`
+        - e.g. `Documents/Odum\ Git`
+    - Enclose the entire path in `'` or `"`
+        - e.g. `"Documents/Odum Git"`
 - Autocompletion will automatically escape any spaces it autocompletes
 
 
@@ -1116,15 +1116,20 @@ git push -u origin main
 
 # Authenticating to Github: Mac: Option 1
 
+- Download and install the [Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager)
+- You'll be prompted to log in when you first _push_ commits to Github
+
+# Authenticating to Github: Mac: Option 2
 - Download and install the [Github Command Line Interface](https://cli.github.com/)
 - Run `gh auth login`
 
-# Authenticating to Github: Mac: Option 2
+# Authenticating to Github: Mac: Option 3
 
+- I don't recommend this one as it's more difficult to set up
 - Create a ["personal access token"](https://github.com/settings/tokens/new)
 - Select "repo" scope
 
-# Authenticating to Github: Mac: Option 2
+# Authenticating to Github: Mac: Option 3
 
 <!-- _class: center -->
 
@@ -1132,7 +1137,7 @@ git push -u origin main
 
 <!-- _class: center -->
 
-# Authenticating to Github: Mac: Option 2
+# Authenticating to Github: Mac: Option 3
 
 ![After creating a personal access token ](gh_token_created.png)
 
@@ -1144,8 +1149,8 @@ git push -u origin main
 git push -u origin main
 ```
 
-- On Windows, you'll now be asked to authenticate
-- On Mac, using option 2, enter your Github username and the token you just copied
+- On Windows, or Mac option 1, you'll now be asked to authenticate
+- On Mac, using option 3, enter your Github username and the token you just copied
 
 # Creating a Github repository
 
